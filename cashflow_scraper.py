@@ -15,11 +15,6 @@ cookies = {
 headers = {
 }
 
-params = {
-    'page': '1',
-    'committee': 'STUDS 2022',
-}
-
 response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page=1&committee=STUDS%202022', cookies=cookies, headers=headers)
 soup = BeautifulSoup(response.content, 'html5lib')
 maxNum = len(soup.find('span', attrs = {'class':'step-links'}).find_all('a'))-1
