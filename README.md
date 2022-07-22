@@ -1,5 +1,5 @@
 # Cashflow Webscraper
-Finds all receipts that have been approved by us (ekoms) but not yet confirmed to be in the ledger.
+Finds all the receipts that have been approved by us (ekoms) but not yet confirmed to be in the ledger.
 
 ## How To Use
 Since you have to be logged in as an admin the webscraper will need a valid admin session cookie. This is very easy to set up in order to start using cashflow_scraper.py.
