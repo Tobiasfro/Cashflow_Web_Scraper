@@ -1,5 +1,7 @@
-"""cashflow.py: Scannar igenom x antal sidor i cashflow och hittar alla STUDS22
-                utlägg som HAR attesterats men som INTE bekräftats i pärmen."""
+"""cashflow.py: Goes through x number of pages in cashflow and finds all Studs22 receipts 
+                that HAS been certified but NOT yet confirmed to be in the ledger.
+                Prints the URL's to these receipts in a .txt file. Also prints (in the terminal)
+                the number of found unconfirmed receipts and the total cost of them in SEK."""
 
 __author__ = "Tobias Fröberg"
 
@@ -7,38 +9,38 @@ import requests
 import time
 from bs4 import BeautifulSoup
 
-# Kopiera in dina cookies från din GET request
+# Insert your cookies from your GET request
 cookies = {
 }
 
 response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page=1&committee=STUDS%202022', cookies=cookies)
 soup = BeautifulSoup(response.content, 'html5lib')
-maxNum = len(soup.find('span', attrs = {'class':'step-links'}).find_all('a'))-1
+maxPageNum = max(1,len(soup.find('span', attrs = {'class':'step-links'}).find_all('a'))-1)
 
 try:
-    # Om exempelvis siffran 5 anges kommer de sida 1, 2, 3, 4 och 5 av utläggen att skannas
-    pageNr = int(input("Skriv in hur många sidor (1-" + str(maxNum) + ") med utlägg som ska kontrolleras: "))
+    # If for example 5 is given, page nr 1, 2, 3, 4 and 5 of the receipts will be scanned
+    pageNum = int(input("Insert the number of pages (1-" + str(maxPageNum) + ") to scan: "))
 except ValueError:
-    print("Input måste vara en siffra")
+    print("Input has to be a number.")
     quit()
 
-if maxNum < pageNr or pageNr < 1:
-    print("Du angav ej giltlig siffra (1-" + str(maxNum) + ")")
+if maxPageNum < pageNum or pageNum < 1:
+    print("You submitted an invalid number, submit a number in the range of 1-" + str(maxPageNum) + ".")
     quit()
 
 f = open("cashflow.txt", "w")
-totalNonConfirmedReceipts = 0
-while pageNr >= 1:
-    response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page='+str(pageNr)+'&committee=STUDS%202022', cookies=cookies)
+totUnconfirmReceipts = 0
+while pageNum >= 1:
+    response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page='+str(pageNum)+'&committee=STUDS%202022', cookies=cookies)
     soup = BeautifulSoup(response.content, 'html5lib')
-    newNonConfirmedReceipts = 0
+    newUnconfirmReceipts = 0
     for link in soup.find_all('a'):
         if link.has_attr('href') and link.text == "Attesterad men inte i pärmen":
-            #print(link.text)
             print("https://cashflow.datasektionen.se" + link.attrs['href'], file=f)
-            newNonConfirmedReceipts += 1
-    totalNonConfirmedReceipts += newNonConfirmedReceipts
+            newUnconfirmReceipts += 1
+    totUnconfirmReceipts += newUnconfirmReceipts
     time.sleep(1/4)
-    print("Klar med sida " + str(pageNr) + ". " + str(newNonConfirmedReceipts) + " nya obekräftade kvitton hittade. Totalt " + str(totalNonConfirmedReceipts) + ".")
-    pageNr -= 1
+    print("Done with page " + str(pageNum) + ". " + str(newUnconfirmReceipts) + " new unconfirmed receipts found.")
+    print("The total is now " + str(totUnconfirmReceipts) + " receipts.")
+    pageNum -= 1
 f.close()
