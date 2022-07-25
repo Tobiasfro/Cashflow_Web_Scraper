@@ -36,7 +36,7 @@ while pageNum >= 1:
     newUnconfirmReceipts = 0
     for link in soup.find_all('a'):
         if link.has_attr('href') and link.text == "Attesterad men inte i pärmen":
-            print("https://cashflow.datasektionen.se" + link.attrs['href'], file=f)
+            f.write("https://cashflow.datasektionen.se" + link.attrs['href'] + "\n")
             newUnconfirmReceipts += 1
     totUnconfirmReceipts += newUnconfirmReceipts
     time.sleep(1/4)
