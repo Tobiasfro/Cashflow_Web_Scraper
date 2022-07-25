@@ -36,7 +36,7 @@ def main():
             + str(max_page_num) + '.')
 
     tot_unconfirm_receipts = 0
-    total_receipt_cost = 0.0
+    tot_receipt_cost = 0.0
     file = open('cashflow.txt', 'wt', encoding='utf8')
     while page_num >= 1:
         response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page='
@@ -54,14 +54,14 @@ def main():
 
                     # Add the cost of this receipt to the total cost of the previous 
                     # found unconfirmed receipts.
-                    total_receipt_cost += receipt_cost_to_float(tag)
+                    tot_receipt_cost += receipt_cost_to_float(tag)
 
         time.sleep(1/4)
         tot_unconfirm_receipts += new_unconfirm_receipts
         print('\nDone with page ' + str(page_num) + '. ' + str(new_unconfirm_receipts)
             + ' new unconfirmed receipts found.')
         print('The total is now ' + str(tot_unconfirm_receipts) + ' receipts with the cost of '
-            + str(round(total_receipt_cost,2)) + ' kr.')
+            + str(round(tot_receipt_cost,2)) + ' kr.')
         page_num -= 1
 
     file.close()
