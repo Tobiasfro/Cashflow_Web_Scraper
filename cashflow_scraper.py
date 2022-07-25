@@ -58,10 +58,10 @@ def main():
 
         time.sleep(1/4)
         tot_unconfirm_receipts += new_unconfirm_receipts
-        print('Done with page ' + str(page_num) + '. ' + str(new_unconfirm_receipts)
+        print('\nDone with page ' + str(page_num) + '. ' + str(new_unconfirm_receipts)
             + ' new unconfirmed receipts found.')
         print('The total is now ' + str(tot_unconfirm_receipts) + ' receipts with the cost of '
-            + str(round(total_receipt_cost,2)) + ' kr.\n')
+            + str(round(total_receipt_cost,2)) + ' kr.')
         page_num -= 1
 
     file.close()
