@@ -1,5 +1,5 @@
 """cashflow.py: Scannar igenom x antal sidor i cashflow och hittar alla STUDS22
-                utlägg som HAR attesterats men som INTE bekräftats i pärmen"""
+                utlägg som HAR attesterats men som INTE bekräftats i pärmen."""
 
 __author__ = "Tobias Fröberg"
 
@@ -11,11 +11,7 @@ from bs4 import BeautifulSoup
 cookies = {
 }
 
-# Kopiera in dina headers från din GET request
-headers = {
-}
-
-response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page=1&committee=STUDS%202022', cookies=cookies, headers=headers)
+response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page=1&committee=STUDS%202022', cookies=cookies)
 soup = BeautifulSoup(response.content, 'html5lib')
 maxNum = len(soup.find('span', attrs = {'class':'step-links'}).find_all('a'))-1
 
@@ -33,7 +29,7 @@ if maxNum < pageNr or pageNr < 1:
 f = open("cashflow.txt", "w")
 totalNonConfirmedReceipts = 0
 while pageNr >= 1:
-    response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page='+str(pageNr)+'&committee=STUDS%202022', cookies=cookies, headers=headers)
+    response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page='+str(pageNr)+'&committee=STUDS%202022', cookies=cookies)
     soup = BeautifulSoup(response.content, 'html5lib')
     newNonConfirmedReceipts = 0
     for link in soup.find_all('a'):
