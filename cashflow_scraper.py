@@ -13,11 +13,6 @@ from bs4 import BeautifulSoup
 
 # Insert your cookies from your GET request.
 cookies = {
-    '_ga': 'GA1.2.151952156.1635786844',
-    '_gid': 'GA1.2.1067317053.1658915506',
-    'csrftoken': 'O6lBtntRp3w1kgxXzOEolMJKT5pKMhKeMaxXJOHhbAgpPDwVmquEzwfU4ziGzD1J',
-    'sessionid': '3cvze7btn1o7lld9mchhve8alcagyjgb',
-    '_gat_gtag_UA_96183461_2': '1',
 }
 
 def main():
