@@ -69,7 +69,7 @@ def committee_selector():
     # Select correct script, filter out everything in the script except the array
     # and convert the string representation of the array to an array.
     committees = literal_eval(soup.find_all('script')[6].text.
-        split("committees: ")[1].split(',\n                committee: ')[0])
+        split('committees: ')[1].split(',\n                committee: ')[0])
 
     committee_dict = {}
     committee_id = 0
@@ -79,7 +79,7 @@ def committee_selector():
         print(committee_id, committee)
 
     try:
-        committee_num = int(input('Enter the number (1-'
+        committee_num = int(input('\nEnter the number (1-'
             + str(committee_id) + ') corresponding to the committee you want to scan: '))
     except ValueError:
         sys.exit('Input has to be a number.')
@@ -89,7 +89,7 @@ def committee_selector():
             + str(committee_id) + '.')
 
     selected_committee = committee_dict[committee_num]
-    print(selected_committee + ' was selected.')
+    print(selected_committee + ' was selected.\n')
 
     return selected_committee
 
