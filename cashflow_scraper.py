@@ -33,7 +33,7 @@ def main():
     while page_num >= 1:
         response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page='
             +str(page_num)+'&committee=' + committee, cookies=cookies)
-        soup = BeautifulSoup(response.content, 'html5lib')
+        soup = BeautifulSoup(response.content, 'html.parser')
         new_unconfirm_receipts = 0
 
         for tag in soup.find_all('tr'):
@@ -99,7 +99,7 @@ def page_num_selector(committee):
 
     response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page=1&'
         'committee=' + committee, cookies=cookies)
-    soup = BeautifulSoup(response.content, 'html5lib')
+    soup = BeautifulSoup(response.content, 'html.parser')
     max_page_num = max(1,len(soup.find('span', attrs = {'class':'step-links'}).find_all('a'))-1)
 
     try:
