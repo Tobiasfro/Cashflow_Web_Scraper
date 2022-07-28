@@ -16,10 +16,12 @@ cookies = {
 }
 
 def main():
-    '''Asks the user what comittee and how many pages to scan and finds all the receipts that
+    '''
+    Asks the user what comittee and how many pages to scan and finds all the receipts that
     HAS been certified but NOT yet confirmed to be in the ledger. Prints the URL's to these
     receipts cashflow.txt. Also prints (in the terminal) the number of found unconfirmed
-    receipts and the total cost of them in SEK.'''
+    receipts and the total cost of them in SEK.
+    '''
 
     # Select the committee of your choice.
     committee = committee_selector()
@@ -59,8 +61,10 @@ def main():
     file.close()
 
 def committee_selector():
-    '''Prints all the availabale committees and returns the committee
-    that matches to the user's entered committee id if it's valid.'''
+    '''
+    Prints all the availabale committees and returns the committee
+    that matches to the user's entered committee id if it's valid.
+    '''
 
     response = requests.get('https://cashflow.datasektionen.se/admin/expenses', cookies=cookies)
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -73,8 +77,7 @@ def committee_selector():
 
     committee_dict = {}
     committee_id = 0
-    for committee in committees:
-        committee_id += 1
+    for committee_id, committee in enumerate(committees, start=1):
         committee_dict[committee_id] = committee
         print(committee_id, committee)
 
@@ -94,8 +97,10 @@ def committee_selector():
     return selected_committee
 
 def page_num_selector(committee):
-    '''Given the chosen committee, ask the user for the number of pages
-    to be scanned and checks if that number is in a valid range.'''
+    '''
+    Given the chosen committee, ask the user for the number of pages
+    to be scanned and checks if that number is in a valid range.
+    '''
 
     response = requests.get('https://cashflow.datasektionen.se/admin/expenses/?page=1&'
         'committee=' + committee, cookies=cookies)
@@ -120,8 +125,10 @@ def receipt_cost_to_float(tag):
     return float(replacer(cost_string))
 
 def replacer(cost_string):
-    '''Replaces unwanted characters in the cost_string so that
-    the float function can convert the string to float.'''
+    '''
+    Replaces unwanted characters in the cost_string so that
+    the float function can convert the string to float.
+    '''
 
     replacers = {',':'.', '\xa0':''}
     for key, value in replacers.items():
